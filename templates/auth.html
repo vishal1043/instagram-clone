@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Instagram</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="auth-body">
+
+<div class="auth-container">
+
+  <div class="auth-box">
+    <h1 class="logo-text">Instagram</h1>
+
+    <form id="authForm">
+      <input id="username" placeholder="Username" style="display:none">
+      <input id="email" placeholder="Phone number, username, or email" required>
+      <input id="password" type="password" placeholder="Password" required>
+
+      <button type="submit" class="login-btn" id="submitBtn">
+        Log in
+      </button>
+    </form>
+
+    <div class="or-divider">
+      <span></span><p>OR</p><span></span>
+    </div>
+
+    <button class="fb-btn" type="button">Log in with Facebook</button>
+    <a class="forgot">Forgot password?</a>
+  </div>
+
+  <div class="signup-box">
+    <p id="toggleText">
+      Don’t have an account?
+      <a href="#" id="toggleLink">Sign up</a>
+    </p>
+  </div>
+
+</div>
+
+<script>
+let isSignup = false;
+
+document.getElementById("authForm").addEventListener("submit", submitAuth);
+document.getElementById("toggleLink").addEventListener("click", toggleMode);
+
+function toggleMode(e) {
+  e.preventDefault();
+  isSignup = !isSignup;
+
+  document.getElementById("username").style.display = isSignup ? "block" : "none";
+  document.getElementById("submitBtn").innerText = isSignup ? "Sign up" : "Log in";
+  document.getElementById("toggleText").innerHTML = isSignup
+    ? `Have an account? <a href="#" id="toggleLink">Log in</a>`
+    : `Don’t have an account? <a href="#" id="toggleLink">Sign up</a>`;
+
+  document.getElementById("toggleLink").addEventListener("click", toggleMode);
+}
+
+async function submitAuth(e) {
+  e.preventDefault();
+
+  const payload = {
+    email: email.value,
+    password: password.value
+  };
+
+  if (isSignup) {
+    payload.username = username.value;
+  }
+
+  const res = await fetch(isSignup ? "/api/signup" : "/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await res.json();
+
+  if (!isSignup && data.access_token) {
+    localStorage.setItem("token", data.access_token);
+    window.location.href = "/dashboard";
+  } 
+  else if (isSignup && res.status === 201) {
+    alert("Signup successful. Please login.");
+    toggleMode(new Event("click"));
+  } 
+  else {
+    alert(data.msg || "Authentication failed");
+  }
+}
+</script>
+
+</body>
+</html>

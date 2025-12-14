@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Post</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+  <div class="card p-4 shadow">
+
+    <h4>Create New Post</h4>
+
+    <form id="createForm" enctype="multipart/form-data">
+  <input type="file" name="image">
+  <input name="image_url" placeholder="OR Image URL">
+  <textarea name="caption"></textarea>
+  <button>Create</button>
+</form>
+
+<script>
+document.getElementById("createForm").onsubmit = async e => {
+  e.preventDefault();
+  const form = new FormData(e.target);
+
+  await fetch("/api/post", {
+    method: "POST",
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    body: form
+  });
+
+  window.location.href = "/dashboard";
+};
+</script>
+
+
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

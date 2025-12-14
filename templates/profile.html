@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile • Instagram</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="profile-topbar">
+  <button class="back-btn" onclick="goHome()">⬅</button>
+  <span class="topbar-title">Profile</span>
+</div>
+
+<div class="profile-container">
+
+  <!-- PROFILE HEADER -->
+  <div class="profile-header">
+    <div class="profile-photo">
+      <img
+        id="profilePhoto"
+        src="https://www.gravatar.com/avatar/?d=mp&s=150"
+        alt="Profile Photo"
+      >
+    </div>
+
+    <div class="profile-info">
+      <h2 id="profileName">username</h2>
+
+      <div class="profile-stats">
+        <span><b id="postCount">0</b> posts</span>
+        <span><b id="followerCount">0</b> followers</span>
+        <span><b id="followingCount">0</b> following</span>
+      </div>
+
+      <div class="profile-bio">
+        <p>Welcome to my Instagram clone 🚀</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSTS GRID -->
+  <div class="profile-posts" id="profilePosts"></div>
+
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>
+  loadProfile();
+</script>
+
+</body>
+
+</html>

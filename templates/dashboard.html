@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Instagram</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2 class="logo">Instagram</h2>
+
+    <ul>
+      <li class="active">🏠 Home</li>
+      <li>🔍 Search</li>
+      <li>💬 Messages</li>
+      <li id="createBtn">➕ Create</li>
+      <li id="profileBtn">👤 Profile</li>
+      <li id="logoutBtn" class="danger">🚪 Logout</li>
+    </ul>
+  </aside>
+
+  <!-- FEED -->
+  <main class="feed">
+    <div class="stories">
+      <div class="story">
+        <img src="https://i.pravatar.cc/100?img=1">
+        <span>You</span>
+      </div>
+    </div>
+
+    <div id="feed"></div>
+    <input 
+  id="searchInput"
+  placeholder="Search users..."
+  class="search-input"
+  style="display:none"
+/>
+<div id="searchResults"></div>
+
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside class="right-panel">
+    <h6>Suggested for you</h6>
+    <div id="suggested">Coming soon</div>
+  </aside>
+
+</div>
+
+<script>
+  if (!localStorage.getItem("token")) {
+    window.location.href = "/";
+  }
+</script>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
